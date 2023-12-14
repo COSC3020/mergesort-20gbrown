@@ -1,10 +1,11 @@
+//code.js
 function mergesort(array) {
     if (array == null || array.length <= 1) {
         return array;
     }
 
     const len = array.length;
-    const aux = new Array(len);
+    //const aux = new Array(len);
 
     for (let size = 1; size < len; size *= 2) {
         for (let start = 0; start < len; start += 2 * size) {
@@ -14,16 +15,19 @@ function mergesort(array) {
             let leftIndex = start;
             let rightIndex = mid;
 
-            for (let i = start; i < end; i++) {
-                aux[i] = array[i];
-            }
-
-            for (let i = start; i < end; i++) {
-                if (leftIndex < mid && (rightIndex >= end || aux[leftIndex] <= aux[rightIndex])) {
-                    array[i] = aux[leftIndex];
+            while (leftIndex < mid && rightIndex < end) {
+                if (array[leftIndex] <= array[rightIndex]) {
                     leftIndex++;
                 } else {
-                    array[i] = aux[rightIndex];
+                    //shift elements to make space for the current right index element
+                    const temp = array[rightIndex];
+                    for (let i = rightIndex; i > leftIndex; i--) {
+                        array[i] = array[i - 1];
+                    }
+                    array[leftIndex] = temp;
+
+                    leftIndex++;
+                    mid++;
                     rightIndex++;
                 }
             }
